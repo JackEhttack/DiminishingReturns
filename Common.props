@@ -3,7 +3,7 @@
     <PropertyGroup>
         <!-- Name of the team on Thunderstore -->
         <!-- https://thunderstore.io/settings/teams -->
-        <RootNamespace>YourThunderstoreTeam</RootNamespace>
+        <RootNamespace>JackEhttack</RootNamespace>
         <!-- The plugin will be built in the bin directory -->
         <OutputPath>bin</OutputPath>
         <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
@@ -16,13 +16,14 @@
         <!-- Path of the game's managed directory where the game's dlls are located -->
         <AssemblyGameDir>$(GameDir)Lethal Company_Data\Managed\</AssemblyGameDir>
         <!-- Name of the game executable -->
+        
         <GameExe>Lethal Company.exe</GameExe>
         <!-- Entire path of the game executable -->
         <GameExePath>$(GameDir)$(GameExe)</GameExePath>
         <!-- Version of the game supported by the plugin -->
         <!-- The value must be the same than the one in CI/CD -->
         <!-- https://www.nuget.org/packages/LethalCompany.GameLibs.Steam -->
-        <GameVersion>49.0.0-alpha.1</GameVersion>
+        <GameVersion>56.0.1-ngd.0</GameVersion>
     </PropertyGroup>
 
     <ItemGroup>

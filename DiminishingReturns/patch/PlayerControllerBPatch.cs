@@ -1,7 +1,8 @@
-﻿using GameNetcodeStuff;
+﻿using System.Collections;
+using GameNetcodeStuff;
 using HarmonyLib;
 
-namespace YourThunderstoreTeam.patch;
+namespace JackEhttack.patch;
 
 /// <summary>
 /// Patch to modify the behavior of a player.
@@ -20,12 +21,11 @@ public class PlayerControllerBPatch
     /// <returns>True if the original method should be called, false otherwise.</returns>
     [HarmonyPatch("PlayerJump")]
     [HarmonyPrefix]
-    private static bool OnPlayerJump(ref PlayerControllerB __instance)
+    private static void OnPlayerJump(ref PlayerControllerB __instance)
     {
         HUDManager.Instance.AddTextToChatOnServer("isJumping: " + __instance.isJumping);
         // When a player jumps, set isJumping to false to prevent the player from jumping.
-        __instance.isJumping = false;
-        return false;
+        //__instance.isJumping = false;
     }
     
 }

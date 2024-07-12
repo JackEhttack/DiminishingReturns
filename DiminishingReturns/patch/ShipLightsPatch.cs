@@ -1,6 +1,6 @@
 ﻿using HarmonyLib;
 
-namespace YourThunderstoreTeam.patch;
+namespace JackEhttack.patch;
 
 /// <summary>
 /// Patch to modify the behavior of the ship lights.
