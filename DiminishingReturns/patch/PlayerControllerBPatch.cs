@@ -1,31 +1,20 @@
 ﻿using System.Collections;
-using GameNetcodeStuff;
-using HarmonyLib;
+using On.DunGen;
+using On.GameNetcodeStuff;
 
 namespace JackEhttack.patch;
 
-/// <summary>
-/// Patch to modify the behavior of a player.
-/// </summary>
-[HarmonyPatch(typeof(PlayerControllerB))]
-public class PlayerControllerBPatch
+public static class PlayerControllerBPatch
 {
-    /// <summary>
-    /// Method called when the player jumps.
-    ///
-    /// Check the link below for more information about Harmony patches.
-    /// Class patches: https://github.com/BepInEx/HarmonyX/wiki/Class-patches
-    /// Patch parameters: https://github.com/BepInEx/HarmonyX/wiki/Patch-parameters
-    /// </summary>
-    /// <param name="__instance">Instance that called the method.</param>
-    /// <returns>True if the original method should be called, false otherwise.</returns>
-    [HarmonyPatch("PlayerJump")]
-    [HarmonyPrefix]
-    private static void OnPlayerJump(ref PlayerControllerB __instance)
+    public static void ApplyPatches()
     {
-        HUDManager.Instance.AddTextToChatOnServer("isJumping: " + __instance.isJumping);
-        // When a player jumps, set isJumping to false to prevent the player from jumping.
-        //__instance.isJumping = false;
+        On.GameNetcodeStuff.PlayerControllerB.PlayerJump += PlayerJumpPatch;
     }
-    
+
+    private static IEnumerator PlayerJumpPatch(PlayerControllerB.orig_PlayerJump orig, GameNetcodeStuff.PlayerControllerB self)
+    {
+        self.isJumping = false;
+        IEnumerator enumerator = orig(self);
+        yield return enumerator;
+    }
 }

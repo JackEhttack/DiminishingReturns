@@ -1,8 +1,8 @@
 ﻿using BepInEx;
 using BepInEx.Logging;
-using HarmonyLib;
 using JackEhttack.patch;
 using JackEhttack.service;
+using On.GameNetcodeStuff;
 
 namespace JackEhttack;
 
@@ -12,8 +12,6 @@ public class Plugin : BaseUnityPlugin
     public static Plugin Instance { get; set; }
 
     public static ManualLogSource Log => Instance.Logger;
-
-    private readonly Harmony _harmony = new(PluginInfo.PLUGIN_GUID);
 
     public TemplateService Service;
 
@@ -25,18 +23,10 @@ public class Plugin : BaseUnityPlugin
     private void Awake()
     {
         Service = new TemplateService();
-
         Log.LogInfo($"Applying patches...");
-        ApplyPluginPatch();
-        Log.LogInfo($"Patches applied");
+        PlayerControllerBPatch.ApplyPatches();
+        ShipLightsPatch.ApplyPatches();
+        Log.LogInfo($"Applied all patches!");
     }
 
-    /// <summary>
-    /// Applies the patch to the game.
-    /// </summary>
-    private void ApplyPluginPatch()
-    {
-        _harmony.PatchAll(typeof(ShipLightsPatch));
-        _harmony.PatchAll(typeof(PlayerControllerBPatch));
-    }
 }
