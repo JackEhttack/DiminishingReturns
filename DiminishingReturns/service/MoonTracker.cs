@@ -22,19 +22,7 @@ public class MoonTracker
    public MoonTracker()
    {
       Instance = this;
-
-      InitializeMoons();
    }
-
-   private void InitializeMoons()
-   {
-      StartOfRound startOfRound = UnityEngine.Object.FindObjectOfType<StartOfRound>();
-      foreach (SelectableLevel moon in startOfRound.levels)
-      {
-         moonVisits[moon] = 0;
-      }
-   }
-
 
    public void ReplenishMoons()
    {
