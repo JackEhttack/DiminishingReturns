@@ -1,5 +1,6 @@
 ﻿using BepInEx;
 using BepInEx.Logging;
+using Dissonance;
 using JackEhttack.patch;
 using JackEhttack.service;
 using On.GameNetcodeStuff;
@@ -11,9 +12,9 @@ public class Plugin : BaseUnityPlugin
 {
     public static Plugin Instance { get; set; }
 
-    public static ManualLogSource Log => Instance.Logger;
+    public ManualLogSource Log => Instance.Logger;
 
-    public TemplateService Service;
+    public MoonTracker Service;
 
     public Plugin()
     {
@@ -22,10 +23,10 @@ public class Plugin : BaseUnityPlugin
 
     private void Awake()
     {
-        Service = new TemplateService();
+        Service = new MoonTracker();
+
         Log.LogInfo($"Applying patches...");
-        PlayerControllerBPatch.ApplyPatches();
-        ShipLightsPatch.ApplyPatches();
+        ScrapModifierPatch.ApplyPatches();
         Log.LogInfo($"Applied all patches!");
     }
 
