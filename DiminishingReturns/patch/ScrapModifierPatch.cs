@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using Steamworks.ServerList;
 
 namespace JackEhttack.patch;
 
@@ -11,6 +12,8 @@ public static class ScrapModifierPatch
     {
         On.RoundManager.SpawnScrapInLevel += ScrapPatch;
         On.StartOfRound.EndOfGame += ReplenishPatch;
+        On.StartOfRound.Start += StartPatch;
+        On.GameNetworkManager.ResetSavedGameValues += ResetMoonsPatch;
     }
 
     private static void ScrapPatch(On.RoundManager.orig_SpawnScrapInLevel orig, RoundManager self)
@@ -45,4 +48,19 @@ public static class ScrapModifierPatch
         return enumerator;
     }
     
+    private static void StartPatch(On.StartOfRound.orig_Start orig, StartOfRound self)
+    {
+        orig(self);
+        if (self.IsServer)
+        {
+            service.MoonTracker.Instance.LoadMoons();
+        }
+    }
+
+    private static void ResetMoonsPatch(On.GameNetworkManager.orig_ResetSavedGameValues orig, GameNetworkManager self)
+    {
+        orig(self);
+        service.MoonTracker.Instance.ResetMoons();
+    }
+
 }
