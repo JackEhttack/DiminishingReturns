@@ -23,7 +23,7 @@ public static class ScrapModifierPatch
         float oldAmountMultiplier = self.scrapAmountMultiplier;
         float oldValueMultiplier = self.scrapValueMultiplier;
         
-        float modifier = 1 - service.MoonTracker.Instance.GetMoon(self.currentLevel)/3f;
+        float modifier = 1 - service.MoonTracker.Instance.GetMoon(self.currentLevel)/Plugin.Config.restock.Value*Plugin.Config.denominator.Value;
 
         self.scrapAmountMultiplier *= math.min(2f, modifier);
         self.scrapValueMultiplier += math.max(1f, modifier - 2);

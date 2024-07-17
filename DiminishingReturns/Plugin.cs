@@ -12,7 +12,8 @@ public class Plugin : BaseUnityPlugin
 
     public ManualLogSource Log => Instance.Logger;
 
-    public MoonTracker Service;
+    public static MoonTracker Service;
+    internal static DRConfig Config { get; private set; } = null!;
 
     public Plugin()
     {
@@ -22,6 +23,7 @@ public class Plugin : BaseUnityPlugin
     private void Awake()
     {
         Service = new MoonTracker();
+        Config = new DRConfig(base.Config);
 
         Log.LogInfo($"Applying patches...");
         ScrapModifierPatch.ApplyPatches();

@@ -17,7 +17,7 @@ public class MoonTracker
    {
       if (moon.name == "CompanyBuildingLevel") return;
 
-      moonVisits[moon.PlanetName] = 3;
+      moonVisits[moon.PlanetName] = Plugin.Config.restock.Value;
    }
 
    public MoonTracker()
@@ -34,7 +34,7 @@ public class MoonTracker
       foreach (string moon in moonVisits.Keys.ToList())
       {
          moonVisits[moon] = Mathf.Max(moonVisits[moon] - 1, 0);
-         if (moonVisits[moon] == 0) moonVisits.Remove(moon);
+         if (moonVisits[moon] < 1) moonVisits.Remove(moon);
       }
 
       Plugin.Instance.Log.LogDebug("Successfully Replenished Moons!");
@@ -47,7 +47,8 @@ public class MoonTracker
       if (random.NextDouble() > 0.5 && level.levelID != 3 && level.levelID != -1)
       {
          bonusMoon = level.PlanetName;
-         bonusAmount = 1.2f + (float)random.NextDouble() * 2;
+         bonusAmount = 1 + (float) random.NextDouble() * (Plugin.Config.maxBonus.Value - 1);
+         moonVisits[level.PlanetName] = 0;
       }
       else
       {
@@ -103,7 +104,7 @@ public class MoonTracker
 
    public float GetMoon(SelectableLevel moon)
    {
-      if (moon.PlanetName == bonusMoon) return -3 * (bonusAmount - 1);
+      if (moon.PlanetName == bonusMoon) return -(Plugin.Config.restock.Value / Plugin.Config.denominator.Value) * (bonusAmount - 1);
       if (!moonVisits.ContainsKey(moon.PlanetName)) return 0;
 
       return moonVisits[moon.PlanetName];
@@ -128,7 +129,7 @@ public class MoonTracker
       
       foreach (var pair in moonVisits)
       {
-         text += $"      {pair.Key}: {(float)(3-pair.Value)/3:P1}\n";
+         text += $"      {pair.Key}: {1-(float)pair.Value/Plugin.Config.restock.Value*Plugin.Config.denominator.Value:P1}\n";
       }
 
       return text.Length == 0 ? "\nNo scrap anomalies detected!\n" : text;
