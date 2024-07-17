@@ -18,14 +18,12 @@ public static class ScrapModifierPatch
 
     private static void ScrapPatch(On.RoundManager.orig_SpawnScrapInLevel orig, RoundManager self)
     {
-        // self.scrapAmountMultiplier
-        // self.scrapValueMultiplier
         
         float oldAmountMultiplier = self.scrapAmountMultiplier;
-        float oldValueMultiplier = self.scrapValueMultiplier;
-
-        self.scrapAmountMultiplier *= (float) (3 - service.MoonTracker.Instance.GetMoon(self.currentLevel))/3;
-        self.scrapValueMultiplier *= (float) (8 - service.MoonTracker.Instance.GetMoon(self.currentLevel))/8;
+        //float oldValueMultiplier = self.scrapValueMultiplier;
+        
+        self.scrapAmountMultiplier *= 1 - service.MoonTracker.Instance.GetMoon(self.currentLevel)/3f;
+        //self.scrapValueMultiplier *= (float) (8 - service.MoonTracker.Instance.GetMoon(self.currentLevel))/8;
         
         Plugin.Instance.Log.LogInfo(
             "Scrap Amount Modifier: " + self.scrapAmountMultiplier + ", Scrap Value Modifier: " + self.scrapValueMultiplier);
@@ -33,7 +31,7 @@ public static class ScrapModifierPatch
         orig(self);
 
         self.scrapAmountMultiplier = oldAmountMultiplier;
-        self.scrapValueMultiplier = oldValueMultiplier;
+        //self.scrapValueMultiplier = oldValueMultiplier;
         
         service.MoonTracker.Instance.DiminishMoon(self.currentLevel);
         

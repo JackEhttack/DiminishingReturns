@@ -25,6 +25,7 @@ public class Plugin : BaseUnityPlugin
 
         Log.LogInfo($"Applying patches...");
         ScrapModifierPatch.ApplyPatches();
+        TerminalPatch.ApplyPatches();
         Log.LogInfo($"Applied all patches!");
     }
 
