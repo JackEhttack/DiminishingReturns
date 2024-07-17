@@ -37,22 +37,23 @@ public class MoonTracker
          if (moonVisits[moon] == 0) moonVisits.Remove(moon);
       }
 
+      Plugin.Instance.Log.LogDebug("Successfully Replenished Moons!");
+      
       System.Random random = new System.Random(StartOfRound.Instance.randomMapSeed + 216);
-
-      //if (random.Next(1, 2) % 2 == 0)
-      //{
-         List<SelectableLevel> levels = StartOfRound.Instance.levels.ToList();
-         SelectableLevel level = levels[random.Next(0, levels.Count)];
+      
+      List<SelectableLevel> levels = StartOfRound.Instance.levels.ToList();
+      SelectableLevel level = levels[random.Next(0, levels.Count)];
+         
+      if (random.NextDouble() > 0.5 && level.levelID != 3 && level.levelID != -1)
+      {
          bonusMoon = level.PlanetName;
          bonusAmount = 1.2f + (float)random.NextDouble() * 2;
-      /*}
+      }
       else
       {
          bonusMoon = "";
          bonusAmount = 1.0f;
-      }*/
-
-      Plugin.Instance.Log.LogDebug("Successfully Replenished Moons!");
+      }
 
       SaveMoons();
       

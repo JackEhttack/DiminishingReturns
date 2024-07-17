@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using Steamworks.ServerList;
+using Unity.Mathematics;
 
 namespace JackEhttack.patch;
 
@@ -20,10 +21,12 @@ public static class ScrapModifierPatch
     {
         
         float oldAmountMultiplier = self.scrapAmountMultiplier;
-        //float oldValueMultiplier = self.scrapValueMultiplier;
+        float oldValueMultiplier = self.scrapValueMultiplier;
         
-        self.scrapAmountMultiplier *= 1 - service.MoonTracker.Instance.GetMoon(self.currentLevel)/3f;
-        //self.scrapValueMultiplier *= (float) (8 - service.MoonTracker.Instance.GetMoon(self.currentLevel))/8;
+        float modifier = 1 - service.MoonTracker.Instance.GetMoon(self.currentLevel)/3f;
+
+        self.scrapAmountMultiplier *= math.min(2f, modifier);
+        self.scrapValueMultiplier += math.max(1f, modifier - 2);
         
         Plugin.Instance.Log.LogInfo(
             "Scrap Amount Modifier: " + self.scrapAmountMultiplier + ", Scrap Value Modifier: " + self.scrapValueMultiplier);
@@ -31,7 +34,7 @@ public static class ScrapModifierPatch
         orig(self);
 
         self.scrapAmountMultiplier = oldAmountMultiplier;
-        //self.scrapValueMultiplier = oldValueMultiplier;
+        self.scrapValueMultiplier = oldValueMultiplier;
         
         service.MoonTracker.Instance.DiminishMoon(self.currentLevel);
         
