@@ -12,7 +12,6 @@ websiteUrl = "https://github.com/JackEhttack/DiminishingReturns"
 containsNsfwContent = false
 
 [package.dependencies]
-# https://thunderstore.io/c/lethal-company/p/BepInEx/BepInExPack/
 BepInEx-BepInExPack = "5.4.2100"
 Evaisa-HookGenPatcher = "0.0.5"
 

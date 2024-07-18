@@ -25,4 +25,7 @@ Adds diminishing returns to scrap generation when visiting the same moon in too 
 To see current levels of diminish and the current bonus moon, use the new terminal command: **TRACKER**
 ___
 If you experience any bugs or incompatibilities, make a GitHub issue describing the problem. ([issues](https://github.com/JackEhttack/DiminishingReturns/issues))
+___
+### Special Thanks:
+- [lethal.wiki](lethal.wiki) for showing me how to make this thing.
 
