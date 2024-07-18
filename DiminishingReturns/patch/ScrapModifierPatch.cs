@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using Steamworks.ServerList;
 using Unity.Mathematics;
 
 namespace JackEhttack.patch;
@@ -8,7 +7,7 @@ using JackEhttack;
 
 public static class ScrapModifierPatch
 {
-
+    
     public static void ApplyPatches()
     {
         On.RoundManager.SpawnScrapInLevel += ScrapPatch;

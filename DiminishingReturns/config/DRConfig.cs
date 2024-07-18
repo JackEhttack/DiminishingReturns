@@ -8,6 +8,7 @@ class DRConfig
     public readonly ConfigEntry<float> denominator;
     public readonly ConfigEntry<float> maxBonus;
     public readonly ConfigEntry<float> bonusChance;
+    public readonly ConfigEntry<float> moonDiscount;
 
     public DRConfig(ConfigFile cfg)
     {
@@ -38,6 +39,12 @@ class DRConfig
             "BonusChance",
             0.5f,
             "The chance of a bonus moon appearing per day.");
+
+        moonDiscount = cfg.Bind(
+            "General",
+            "BonusChance",
+            0.5f,
+            "A discount applied to the price of moons, to make up for diminishment.");
     }
 
 }

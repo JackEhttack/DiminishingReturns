@@ -17,7 +17,7 @@ public static class TerminalPatch
     private static void Terminal_Awake(On.Terminal.orig_Awake orig, Terminal self)
     {
         orig(self);
-        
+
         // Add tracker command:
         TerminalNode node = ScriptableObject.CreateInstance<TerminalNode>();
         node.name = "ShowMoonsDiminish";
@@ -43,9 +43,11 @@ public static class TerminalPatch
         {
             if (termNode.buyRerouteToMoon != -1)
             {
-                termNode.itemCost = (int) (termNode.itemCost * 0.5f);
+                termNode.itemCost = (int) (termNode.itemCost * Plugin.Config.moonDiscount.Value);
             }
         }
+
+        On.Terminal.Awake -= Terminal_Awake;
 
     }
 
