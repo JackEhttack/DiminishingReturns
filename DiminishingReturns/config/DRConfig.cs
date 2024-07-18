@@ -1,4 +1,7 @@
-﻿using BepInEx.Configuration;
+﻿using System.Collections.Generic;
+using System.Reflection;
+using BepInEx.Configuration;
+using HarmonyLib;
 
 namespace JackEhttack;
 
@@ -45,6 +48,20 @@ class DRConfig
             "BonusChance",
             0.5f,
             "A discount applied to the price of moons, to make up for diminishment.");
+
+        ClearOrphanedEntries(cfg);
+        cfg.Save();
+        cfg.SaveOnConfigSet = true;
     }
+    
+    static void ClearOrphanedEntries(ConfigFile cfg) 
+    { 
+        // Find the private property `OrphanedEntries` from the type `ConfigFile`
+        PropertyInfo orphanedEntriesProp = AccessTools.Property(typeof(ConfigFile), "OrphanedEntries"); 
+        // And get the value of that property from our ConfigFile instance
+        var orphanedEntries = (Dictionary<ConfigDefinition, string>)orphanedEntriesProp.GetValue(cfg); 
+        // And finally, clear the `OrphanedEntries` dictionary
+        orphanedEntries.Clear(); 
+    } 
 
 }

@@ -7,6 +7,7 @@
 
 ### Bug Fixes
 * Fixed bug that caused the moon discount to be applied repeatedly.
+* Made the config actually generate. 
 
 ## 1.0.0 (2024-07-17)
 
