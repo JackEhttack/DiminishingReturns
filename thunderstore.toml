@@ -1,19 +1,20 @@
 ﻿[config]
-schemaVersion = "0.0.1"
+schemaVersion = "1.0.0"
 
 [general]
 repository = "https://thunderstore.io"
 
 [package]
-namespace = "YourThunderstoreTeam"
-name = "Template"
-description = "A template for Lethal Company plugins."
-websiteUrl = "https://github.com/Distractic/LethalCompanyTemplate"
+namespace = "JackEhttack"
+name = "DiminishingReturns"
+description = "Adds Diminishing Returns to repeated visits to the same planet."
+websiteUrl = "https://github.com/JackEhttack/DiminishingReturns"
 containsNsfwContent = false
 
 [package.dependencies]
 # https://thunderstore.io/c/lethal-company/p/BepInEx/BepInExPack/
 BepInEx-BepInExPack = "5.4.2100"
+Evaisa-HookGenPatcher = "0.0.5"
 
 [build]
 icon = "icon.png"
@@ -21,8 +22,8 @@ readme = "README.md"
 outdir = "build"
 
 [[build.copy]]
-source = "Template/bin/Template.dll"
-target = "BepInEx/plugins/Template.dll"
+source = "DiminishingReturns/bin/DiminishingReturns.dll"
+target = "BepInEx/plugins/DiminishingReturns.dll"
 
 [[build.copy]]
 source = "CHANGELOG.md"
@@ -37,4 +38,4 @@ communities = ["lethal-company"]
 
 [publish.categories]
 # The categories are available at https://thunderstore.io near of the search bar
-lethal-company = ["bepinex", "mods"]
+lethal-company = ["bepinex", "mods", "server-side", "tweaks & quality of life"]
