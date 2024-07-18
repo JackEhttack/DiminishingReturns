@@ -7,7 +7,8 @@
 
 ### Bug Fixes
 * Fixed bug that caused the moon discount to be applied repeatedly.
-* Made the config actually generate. 
+* Made the config actually generate.
+* Fixed bug that caused the value of scrap to be a lot higher than it should.
 
 ## 1.0.0 (2024-07-17)
 
