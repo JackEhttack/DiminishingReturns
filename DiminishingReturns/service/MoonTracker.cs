@@ -44,7 +44,7 @@ public class MoonTracker
       List<SelectableLevel> levels = StartOfRound.Instance.levels.ToList();
       SelectableLevel level = levels[random.Next(0, levels.Count)];
          
-      if (random.NextDouble() > 0.5 && level.levelID != 3 && level.levelID != -1)
+      if (random.NextDouble() < Plugin.Config.bonusChance.Value && level.levelID != 3 && level.levelID != -1)
       {
          bonusMoon = level.PlanetName;
          bonusAmount = 1 + (float) random.NextDouble() * (Plugin.Config.maxBonus.Value - 1);
@@ -87,8 +87,8 @@ public class MoonTracker
          
          var moons = ES3.Load<string[]>("MoonTrackerMoons", currentSaveFileName, []).ToList();
          var values = ES3.Load<int[]>("MoonTrackerValues", currentSaveFileName, []).ToList();
-         bonusMoon = ES3.Load<string>("BonusMoon", currentSaveFileName, "");
-         bonusAmount = ES3.Load<float>("BonusAmount", currentSaveFileName, 1.0f);
+         bonusMoon = ES3.Load("BonusMoon", currentSaveFileName, "");
+         bonusAmount = ES3.Load("BonusAmount", currentSaveFileName, 1.0f);
 
          for (int i = 0; i < moons.Count; i++)
          {

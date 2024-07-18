@@ -7,6 +7,7 @@ class DRConfig
     public readonly ConfigEntry<int> restock;
     public readonly ConfigEntry<float> denominator;
     public readonly ConfigEntry<float> maxBonus;
+    public readonly ConfigEntry<float> bonusChance;
 
     public DRConfig(ConfigFile cfg)
     {
@@ -31,6 +32,12 @@ class DRConfig
             "MaxBonus",
             3.2f,
             "The upper limit for a bonus moon's scrap.");
+
+        bonusChance = cfg.Bind(
+            "General",
+            "BonusChance",
+            0.5f,
+            "The chance of a bonus moon appearing per day.");
     }
 
 }
