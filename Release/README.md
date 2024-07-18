@@ -19,6 +19,7 @@ Adds diminishing returns to scrap generation when visiting the same moon in too 
 ### In addition:
 - A flat discount for paid moons to make it more economical.
 - Bonus Scrap Anomalies, in other words a bonus to scrap generation on a random moon some days. (_maybe you'll have a reason to go to embrion, maybe_)
+- Fully configurable.
 
 To see current levels of diminish and the current bonus moon, use the new terminal command: **TRACKER**
 ___
