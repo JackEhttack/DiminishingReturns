@@ -1,5 +1,8 @@
 ﻿using System.Collections;
+using JackEhttack.service;
+using On.DunGen;
 using Unity.Mathematics;
+using Unity.Netcode;
 
 namespace JackEhttack.patch;
 
@@ -14,15 +17,16 @@ public static class ScrapModifierPatch
         On.StartOfRound.EndOfGame += ReplenishPatch;
         On.StartOfRound.Start += StartPatch;
         On.GameNetworkManager.ResetSavedGameValues += ResetMoonsPatch;
+        On.StartOfRound.OnClientConnect += UpdateTrackerPatch;
     }
-
+    
     private static void ScrapPatch(On.RoundManager.orig_SpawnScrapInLevel orig, RoundManager self)
     {
         
         float oldAmountMultiplier = self.scrapAmountMultiplier;
         float oldValueMultiplier = self.scrapValueMultiplier;
         
-        float modifier = 1 - service.MoonTracker.Instance.GetMoon(self.currentLevel)/Plugin.Config.restock.Value*Plugin.Config.denominator.Value;
+        float modifier = 1 - MoonTracker.Instance.GetMoon(self.currentLevel)/Plugin.Config.restock.Value*Plugin.Config.denominator.Value;
 
         self.scrapAmountMultiplier *= math.min(2f, modifier);
         self.scrapValueMultiplier += math.max(0f, modifier - 3);
@@ -38,7 +42,7 @@ public static class ScrapModifierPatch
         self.scrapAmountMultiplier = oldAmountMultiplier;
         self.scrapValueMultiplier = oldValueMultiplier;
         
-        service.MoonTracker.Instance.DiminishMoon(self.currentLevel);
+        MoonTracker.Instance.DiminishMoon(self.currentLevel);
         
     }
     
@@ -46,7 +50,7 @@ public static class ScrapModifierPatch
     {
         IEnumerator enumerator = orig(self, bodiesinsured, connectedplayersonserver, scrapcollected);
         
-        service.MoonTracker.Instance.ReplenishMoons();
+        MoonTracker.Instance.ReplenishMoons();
         
         return enumerator;
     }
@@ -56,14 +60,20 @@ public static class ScrapModifierPatch
         orig(self);
         if (self.IsServer)
         {
-            service.MoonTracker.Instance.LoadMoons();
+            MoonTracker.Instance.LoadMoons();
         }
     }
 
     private static void ResetMoonsPatch(On.GameNetworkManager.orig_ResetSavedGameValues orig, GameNetworkManager self)
     {
         orig(self);
-        service.MoonTracker.Instance.ResetMoons();
+        MoonTracker.Instance.ResetMoons();
     }
 
+    private static void UpdateTrackerPatch(On.StartOfRound.orig_OnClientConnect orig, StartOfRound self, ulong clientid)
+    {
+        orig(self, clientid);
+        MoonTracker.Instance.UpdateClientTrackers();
+    }
+    
 }

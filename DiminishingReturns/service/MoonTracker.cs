@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System;
+using JackEhttack.netcode;
+using Unity.Netcode;
 using UnityEngine;
 
 namespace JackEhttack.service;
@@ -9,6 +11,8 @@ public class MoonTracker
 {
    public static MoonTracker Instance;
 
+   private string trackerText;
+   
    private string bonusMoon;
    private float bonusAmount;
    private Dictionary<string, int> moonVisits;
@@ -18,12 +22,16 @@ public class MoonTracker
       if (moon.name == "CompanyBuildingLevel") return;
 
       moonVisits[moon.PlanetName] = Plugin.Config.restock.Value;
+      
+      UpdateClientTrackers();
    }
 
    public MoonTracker()
    {
       Instance = this;
 
+      trackerText = "";
+      
       moonVisits = new Dictionary<string, int>();
       bonusMoon = "";
       bonusAmount = 1.0f;
@@ -48,7 +56,7 @@ public class MoonTracker
       {
          bonusMoon = level.PlanetName;
          bonusAmount = 1 + (float) random.NextDouble() * (Plugin.Config.maxBonus.Value - 1);
-         moonVisits[level.PlanetName] = 0;
+         moonVisits.Remove(level.PlanetName);
       }
       else
       {
@@ -57,7 +65,8 @@ public class MoonTracker
       }
 
       SaveMoons();
-      
+     
+      UpdateClientTrackers();
    }
 
    private void SaveMoons()
@@ -114,9 +123,21 @@ public class MoonTracker
    {
       moonVisits = new Dictionary<string, int>();
       SaveMoons();
+      UpdateClientTrackers();
+   }
+
+   public void SetText(string text)
+   {
+      Plugin.Instance.Log.LogInfo($"Setting text: {text}");
+      trackerText = text;
    }
 
    public string GetText()
+   {
+      return NetworkManager.Singleton.IsHost || NetworkManager.Singleton.IsServer ? GenerateText() : trackerText;
+   }
+   
+   public string GenerateText()
    {
       string text = "";
 
@@ -133,6 +154,15 @@ public class MoonTracker
       }
 
       return text.Length == 0 ? "\nNo scrap anomalies detected!\n" : text;
+   }
+
+   public void UpdateClientTrackers()
+   {
+      if (!(NetworkManager.Singleton.IsHost || NetworkManager.Singleton.IsServer)) 
+         return;
+     
+      Plugin.Instance.Log.LogInfo("Sent!");
+      TrackerNetworkHandler.Instance.TrackerUpdateClientRpc(GenerateText());
    }
 
 }
