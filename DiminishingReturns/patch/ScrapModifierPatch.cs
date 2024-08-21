@@ -31,10 +31,10 @@ public static class ScrapModifierPatch
         self.scrapAmountMultiplier *= math.min(2f, modifier);
         self.scrapValueMultiplier += math.max(0f, modifier - 3);
         
-        Plugin.Instance.Log.LogInfo(
+        Plugin.Instance.Log.LogDebug(
             "Scrap Amount Modifier: " + self.scrapAmountMultiplier + ", Scrap Value Modifier: " + self.scrapValueMultiplier);
         
-        Plugin.Instance.Log.LogInfo(
+        Plugin.Instance.Log.LogDebug(
             "Old Scrap Amount Modifier: " + oldAmountMultiplier + ", Scrap Value Modifier: " + oldValueMultiplier);
         
         orig(self);

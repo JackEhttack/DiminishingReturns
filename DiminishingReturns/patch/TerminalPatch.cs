@@ -38,7 +38,7 @@ public static class TerminalPatch
         self.terminalNodes.allKeywords = keywords.ToArray();
 
         var nodes = Resources.FindObjectsOfTypeAll<TerminalNode>();
-        Plugin.Instance.Log.LogInfo(nodes.Length);
+        Plugin.Instance.Log.LogDebug($"Scanned {nodes.Length} terminal nodes to discount.");
         foreach (var termNode in nodes)
         {
             if (termNode.buyRerouteToMoon != -1)

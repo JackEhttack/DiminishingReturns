@@ -45,7 +45,7 @@ public class MoonTracker
          if (moonVisits[moon] < 1) moonVisits.Remove(moon);
       }
 
-      Plugin.Instance.Log.LogDebug("Successfully Replenished Moons!");
+      Plugin.Instance.Log.LogDebug("Replenished diminishment.");
       
       System.Random random = new System.Random(StartOfRound.Instance.randomMapSeed + 216);
       
@@ -57,6 +57,7 @@ public class MoonTracker
          bonusMoon = level.PlanetName;
          bonusAmount = 1 + (float) random.NextDouble() * (Plugin.Config.maxBonus.Value - 1);
          moonVisits.Remove(level.PlanetName);
+         Plugin.Instance.Log.LogDebug($"{level.PlanetName} selected as bonus moon with bonus of {bonusAmount}");
       }
       else
       {
@@ -80,7 +81,7 @@ public class MoonTracker
          ES3.Save("BonusMoon", bonusMoon, currentSaveFileName);
          ES3.Save("BonusAmount", bonusAmount, currentSaveFileName);
          
-         Plugin.Instance.Log.LogDebug("Successfully saved MoonTracker data.");
+         Plugin.Instance.Log.LogDebug("Saved MoonTracker values.");
       }
       catch (Exception arg)
       {
@@ -128,7 +129,7 @@ public class MoonTracker
 
    public void SetText(string text)
    {
-      Plugin.Instance.Log.LogInfo($"Setting text: {text}");
+      Plugin.Instance.Log.LogDebug($"Setting tracker text: {text}");
       trackerText = text;
    }
 
@@ -161,7 +162,7 @@ public class MoonTracker
       if (!(NetworkManager.Singleton.IsHost || NetworkManager.Singleton.IsServer)) 
          return;
      
-      Plugin.Instance.Log.LogInfo("Sent!");
+      Plugin.Instance.Log.LogDebug("Sent clients updated tracker text.");
       TrackerNetworkHandler.Instance.TrackerUpdateClientRpc(GenerateText());
    }
 

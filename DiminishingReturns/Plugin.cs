@@ -47,7 +47,7 @@ public class Plugin : BaseUnityPlugin
         Config = new DRConfig(base.Config);
         
         var dllFolderPath = System.IO.Path.GetDirectoryName(Info.Location);
-        var assetBundleFilePath = System.IO.Path.Combine(dllFolderPath, "DRAssets");
+        var assetBundleFilePath = System.IO.Path.Combine(dllFolderPath, "DiminishingReturns.assets");
         MainAssetBundle = AssetBundle.LoadFromFile(assetBundleFilePath);
 
         NetcodePatcher();

@@ -20,7 +20,7 @@ public class TrackerNetworkHandler : NetworkBehaviour
     [ClientRpc]
     public void TrackerUpdateClientRpc(string text)
     {
-        Plugin.Instance.Log.LogInfo($"Received: {text}");
+        Plugin.Instance.Log.LogDebug($"Received tracker text from server.");
         MoonTracker.Instance.SetText(text);
     }
 
