@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.0.2 (2024-08-21)
+
+### Features
+* Host client synchronization for **tracker** command.
+
+### Bug Fixes
+* Bonus moons no longer appear in the "reduced moons" category.
+
 ## 1.0.1 (2024-07-17)
 
 ### Features
