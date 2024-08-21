@@ -38,7 +38,5 @@ public static class NetworkObjectManager
             var networkHandlerHost = Object.Instantiate(networkPrefab, Vector3.zero, Quaternion.identity);
             networkHandlerHost.GetComponent<NetworkObject>().Spawn();
         }
-        Plugin.Instance.Log.LogInfo("Now listening to TrackerEvent.");
-        TrackerNetworkHandler.TrackerEvent += MoonTracker.Instance.SetText;
     }
 }
