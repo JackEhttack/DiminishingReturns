@@ -23,7 +23,7 @@ public static class NetworkObjectManager
         }
 
         networkPrefab = (GameObject) Plugin.Instance.MainAssetBundle.LoadAsset("TrackerNetworkHandler");
-        networkPrefab.AddComponent<netcode.TrackerNetworkHandler>();
+        networkPrefab.AddComponent<netcode.NetworkHandler>();
 
         NetworkManager.Singleton.AddNetworkPrefab(networkPrefab);
     }

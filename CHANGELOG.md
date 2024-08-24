@@ -2,6 +2,9 @@
 
 ## 1.0.4 (2024-08-23)
 
+### Features
+* Host client synchronization for moon discounts.
+
 ### Bug Fixes
 * Fixed broken config option to change discount for moons.
 

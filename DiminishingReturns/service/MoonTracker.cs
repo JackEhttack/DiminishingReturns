@@ -163,7 +163,7 @@ public class MoonTracker
          return;
      
       Plugin.Instance.Log.LogDebug("Sent clients updated tracker text.");
-      TrackerNetworkHandler.Instance.TrackerUpdateClientRpc(GenerateText());
+      NetworkHandler.Instance.TrackerUpdateClientRpc(GenerateText());
    }
 
 }
