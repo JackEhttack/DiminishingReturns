@@ -1,5 +1,16 @@
 # Changelog
 
+## 1.0.4 (2024-08-23)
+
+### Bug Fixes
+* Fixed broken config option to change discount for moons.
+
+## 1.0.3 (2024-08-21) ???
+
+### Oops
+* Changed icon to correct spelling of "dimining" to "diminishing".
+* No change to the mod.
+
 ## 1.0.2 (2024-08-21)
 
 ### Features

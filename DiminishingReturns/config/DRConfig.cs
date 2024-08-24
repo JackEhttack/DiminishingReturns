@@ -45,7 +45,7 @@ class DRConfig
 
         moonDiscount = cfg.Bind(
             "General",
-            "BonusChance",
+            "MoonDiscount",
             0.5f,
             "A discount applied to the price of moons, to make up for diminishment.");
 
