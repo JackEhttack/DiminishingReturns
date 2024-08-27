@@ -30,6 +30,14 @@ ___
 ___
 ### Changelog:
 
+### 1.0.5 (2024-08-27)
+
+#### Features
+* Moons are no longer regenerated on the same day as they are diminished.
+
+#### Bug Fixes
+* Fixed softlock when landing on moon after host leaves and rehosts room.
+
 ### 1.0.4 (2024-08-23)
 
 #### Features
