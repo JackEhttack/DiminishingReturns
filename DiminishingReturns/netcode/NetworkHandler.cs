@@ -11,7 +11,7 @@ public class NetworkHandler : NetworkBehaviour
 
     public override void OnNetworkSpawn()
     {
-        if (NetworkManager.Singleton.IsHost || NetworkManager.Singleton.IsServer)
+        if ((NetworkManager.Singleton.IsHost || NetworkManager.Singleton.IsServer) & Instance != null)
             Instance?.gameObject.GetComponent<NetworkObject>().Despawn();
         Instance = this;
         

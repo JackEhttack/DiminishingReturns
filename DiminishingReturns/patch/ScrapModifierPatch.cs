@@ -40,7 +40,6 @@ public static class ScrapModifierPatch
         self.scrapAmountMultiplier = oldAmountMultiplier;
         self.scrapValueMultiplier = oldValueMultiplier;
         
-        MoonTracker.Instance.DiminishMoon(self.currentLevel);
         
     }
     
@@ -49,6 +48,7 @@ public static class ScrapModifierPatch
         IEnumerator enumerator = orig(self, bodiesinsured, connectedplayersonserver, scrapcollected);
         
         MoonTracker.Instance.ReplenishMoons();
+        MoonTracker.Instance.DiminishMoon(self.currentLevel);
         
         return enumerator;
     }
