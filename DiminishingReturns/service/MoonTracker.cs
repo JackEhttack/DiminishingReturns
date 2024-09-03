@@ -15,14 +15,27 @@ public class MoonTracker
    
    private string bonusMoon;
    private float bonusAmount;
-   private Dictionary<string, int> moonVisits;
+   private Dictionary<string, float> moonVisits;
 
    public void DiminishMoon(SelectableLevel moon)
    {
       if (moon.name == "CompanyBuildingLevel") return;
 
-      moonVisits[moon.PlanetName] = Plugin.Config.restock.Value;
-      
+      if (moonVisits.ContainsKey(moon.PlanetName)) {
+         moonVisits[moon.PlanetName] = Math.Min(
+            Plugin.Config.restock.Value,
+            moonVisits[moon.PlanetName] + Plugin.Config.restock.Value / Plugin.Config.denominator.Value * 
+            Plugin.Config.amount.Value
+         );
+      } 
+      else
+      {
+         moonVisits[moon.PlanetName] = Math.Min(
+            Plugin.Config.restock.Value,
+            Plugin.Config.restock.Value / Plugin.Config.denominator.Value * Plugin.Config.amount.Value
+         );
+      }
+
       UpdateClientTrackers();
    }
 
@@ -32,7 +45,7 @@ public class MoonTracker
 
       trackerText = "";
       
-      moonVisits = new Dictionary<string, int>();
+      moonVisits = new Dictionary<string, float>();
       bonusMoon = "";
       bonusAmount = 1.0f;
    }
@@ -89,7 +102,7 @@ public class MoonTracker
 
    public void LoadMoons()
    {
-      moonVisits = new Dictionary<string, int>();
+      moonVisits = new Dictionary<string, float>();
       bonusMoon = "";
       bonusAmount = 1.0f;
       
@@ -124,7 +137,7 @@ public class MoonTracker
 
    public void ResetMoons()
    {
-      moonVisits = new Dictionary<string, int>();
+      moonVisits = new Dictionary<string, float>();
       SaveMoons();
       UpdateClientTrackers();
    }

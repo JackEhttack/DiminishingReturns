@@ -9,6 +9,7 @@ class DRConfig
 {
     public readonly ConfigEntry<int> restock;
     public readonly ConfigEntry<float> denominator;
+    public readonly ConfigEntry<float> amount;
     public readonly ConfigEntry<float> maxBonus;
     public readonly ConfigEntry<float> bonusChance;
     public readonly ConfigEntry<float> moonDiscount;
@@ -30,6 +31,12 @@ class DRConfig
             "MaxDiminish",
             0.5f,
             "The maximum amount a moon's scrap can be diminished.");
+
+        amount = cfg.Bind(
+            "General",
+            "DiminishAmount",
+            1f,
+            "How much a moon is diminished per visit. Note: diminishment will not exceed MaxDiminish. [0 - 1.0]");
         
         maxBonus = cfg.Bind(
             "General",
@@ -47,7 +54,7 @@ class DRConfig
             "General",
             "MoonDiscount",
             0.5f,
-            "A discount applied to the price of moons, to make up for diminishment.");
+            "A discount applied to the price of moons, to make up for diminishment. [0 - 1.0]");
 
         ClearOrphanedEntries(cfg);
         cfg.Save();
