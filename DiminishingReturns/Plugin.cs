@@ -57,6 +57,7 @@ public class Plugin : BaseUnityPlugin
         TerminalPatch.ApplyPatches();
         NetworkObjectManager.ApplyPatches();
         Log.LogInfo($"Applied all patches!");
+        
     }
 
 }

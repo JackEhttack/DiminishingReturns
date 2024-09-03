@@ -29,10 +29,10 @@ public static class ScrapModifierPatch
         self.scrapAmountMultiplier *= math.min(2f, modifier);
         self.scrapValueMultiplier += math.max(0f, modifier - 3);
         
-        Plugin.Instance.Log.LogDebug(
+        Plugin.Instance.Log.LogInfo(
             "Scrap Amount Modifier: " + self.scrapAmountMultiplier + ", Scrap Value Modifier: " + self.scrapValueMultiplier);
         
-        Plugin.Instance.Log.LogDebug(
+        Plugin.Instance.Log.LogInfo(
             "Old Scrap Amount Modifier: " + oldAmountMultiplier + ", Scrap Value Modifier: " + oldValueMultiplier);
         
         orig(self);
@@ -49,6 +49,7 @@ public static class ScrapModifierPatch
         
         MoonTracker.Instance.ReplenishMoons();
         MoonTracker.Instance.DiminishMoon(self.currentLevel);
+        MoonTracker.Instance.SaveMoons();
         
         return enumerator;
     }
@@ -56,7 +57,7 @@ public static class ScrapModifierPatch
     private static void StartPatch(On.StartOfRound.orig_Start orig, StartOfRound self)
     {
         orig(self);
-        if (self.IsServer)
+        if (self.IsServer || self.IsHost)
         {
             MoonTracker.Instance.LoadMoons();
         }

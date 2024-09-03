@@ -21,14 +21,12 @@ public class NetworkHandler : NetworkBehaviour
     [ClientRpc]
     public void TrackerUpdateClientRpc(string text)
     {
-        Plugin.Instance.Log.LogDebug($"Received tracker text from server.");
         MoonTracker.Instance.SetText(text);
     }
 
     [ClientRpc]
     public void DiscountUpdateClientRpc(float discount)
     {
-        Plugin.Instance.Log.LogDebug($"Received moon discount from server.");
         TerminalPatch.UpdatePrices(discount);
     }
 

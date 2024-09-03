@@ -62,7 +62,7 @@ public static class TerminalPatch
            
             // Get list of moon travel nodes
             var nodes = Resources.FindObjectsOfTypeAll<TerminalNode>();
-            Plugin.Instance.Log.LogDebug($"Scanned {nodes.Length} terminal nodes to potentially discount.");
+            Plugin.Instance.Log.LogInfo($"Scanned {nodes.Length} terminal nodes to potentially discount.");
             foreach (var termNode in nodes)
             {
                 if (termNode.buyRerouteToMoon != -1 && termNode.itemCost > 0) 

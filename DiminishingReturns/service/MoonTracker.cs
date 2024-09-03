@@ -45,7 +45,7 @@ public class MoonTracker
          if (moonVisits[moon] < 1) moonVisits.Remove(moon);
       }
 
-      Plugin.Instance.Log.LogDebug("Replenished diminishment.");
+      Plugin.Instance.Log.LogInfo("Replenished diminishment.");
       
       System.Random random = new System.Random(StartOfRound.Instance.randomMapSeed + 216);
       
@@ -57,7 +57,7 @@ public class MoonTracker
          bonusMoon = level.PlanetName;
          bonusAmount = 1 + (float) random.NextDouble() * (Plugin.Config.maxBonus.Value - 1);
          moonVisits.Remove(level.PlanetName);
-         Plugin.Instance.Log.LogDebug($"{level.PlanetName} selected as bonus moon with bonus of {bonusAmount}");
+         Plugin.Instance.Log.LogInfo($"{level.PlanetName} selected as bonus moon with bonus of {bonusAmount}");
       }
       else
       {
@@ -65,12 +65,10 @@ public class MoonTracker
          bonusAmount = 1.0f;
       }
 
-      SaveMoons();
-     
       UpdateClientTrackers();
    }
 
-   private void SaveMoons()
+   public void SaveMoons()
    {
       try
       {
@@ -81,7 +79,7 @@ public class MoonTracker
          ES3.Save("BonusMoon", bonusMoon, currentSaveFileName);
          ES3.Save("BonusAmount", bonusAmount, currentSaveFileName);
          
-         Plugin.Instance.Log.LogDebug("Saved MoonTracker values.");
+         Plugin.Instance.Log.LogInfo("Saved MoonTracker values.");
       }
       catch (Exception arg)
       {
@@ -91,6 +89,10 @@ public class MoonTracker
 
    public void LoadMoons()
    {
+      moonVisits = new Dictionary<string, int>();
+      bonusMoon = "";
+      bonusAmount = 1.0f;
+      
       try
       {
          var currentSaveFileName = GameNetworkManager.Instance.currentSaveFileName;
@@ -104,7 +106,7 @@ public class MoonTracker
          {
             moonVisits[moons[i]] = values[i];
          }
-         Plugin.Instance.Log.LogDebug("Successfully loaded MoonTracker data.");
+         Plugin.Instance.Log.LogInfo("Successfully loaded MoonTracker data.");
       }
       catch (Exception arg)
       {
@@ -129,7 +131,6 @@ public class MoonTracker
 
    public void SetText(string text)
    {
-      Plugin.Instance.Log.LogDebug($"Setting tracker text: {text}");
       trackerText = text;
    }
 
@@ -162,7 +163,6 @@ public class MoonTracker
       if (!(NetworkManager.Singleton.IsHost || NetworkManager.Singleton.IsServer)) 
          return;
      
-      Plugin.Instance.Log.LogDebug("Sent clients updated tracker text.");
       NetworkHandler.Instance.TrackerUpdateClientRpc(GenerateText());
    }
 
