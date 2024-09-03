@@ -1,4 +1,4 @@
-﻿using System.Collections;
+﻿using HarmonyLib;
 using JackEhttack.service;
 using Unity.Mathematics;
 
@@ -6,72 +6,70 @@ namespace JackEhttack.patch;
 
 using JackEhttack;
 
-public static class ScrapModifierPatch
+static class ScrapModifierPatches
 {
+    private static float oldAmountMultiplier = 1;
+    private static float oldValueMultiplier = 1;
     
-    public static void ApplyPatches()
-    {
-        On.RoundManager.SpawnScrapInLevel += ScrapPatch;
-        On.StartOfRound.EndOfGame += ReplenishPatch;
-        On.StartOfRound.Start += StartPatch;
-        On.GameNetworkManager.ResetSavedGameValues += ResetMoonsPatch;
-        On.StartOfRound.OnClientConnect += UpdateTrackerPatch;
-    }
-    
-    private static void ScrapPatch(On.RoundManager.orig_SpawnScrapInLevel orig, RoundManager self)
+    [HarmonyPatch(typeof(RoundManager), nameof(RoundManager.SpawnScrapInLevel))]
+    [HarmonyPriority(-100)] // run as late as possible to avoid mod conflicts
+    [HarmonyPrefix]
+    private static void ScrapPatch(RoundManager __instance)
     {
         
-        float oldAmountMultiplier = self.scrapAmountMultiplier;
-        float oldValueMultiplier = self.scrapValueMultiplier;
+        oldAmountMultiplier = __instance.scrapAmountMultiplier;
+        oldValueMultiplier = __instance.scrapValueMultiplier;
         
-        float modifier = 1 - MoonTracker.Instance.GetMoon(self.currentLevel)/Plugin.Config.restock.Value*Plugin.Config.denominator.Value;
+        float modifier = 1 - MoonTracker.Instance.GetMoon(__instance.currentLevel)/Plugin.Config.restock.Value*Plugin.Config.denominator.Value;
 
-        self.scrapAmountMultiplier *= math.min(2f, modifier);
-        self.scrapValueMultiplier += math.max(0f, modifier - 3);
+        __instance.scrapAmountMultiplier *= math.min(2f, modifier);
+        __instance.scrapValueMultiplier += math.max(0f, modifier - 3);
         
         Plugin.Instance.Log.LogInfo(
-            "Scrap Amount Modifier: " + self.scrapAmountMultiplier + ", Scrap Value Modifier: " + self.scrapValueMultiplier);
+            "Scrap Amount Modifier: " + __instance.scrapAmountMultiplier + ", Scrap Value Modifier: " + __instance.scrapValueMultiplier);
         
         Plugin.Instance.Log.LogInfo(
             "Old Scrap Amount Modifier: " + oldAmountMultiplier + ", Scrap Value Modifier: " + oldValueMultiplier);
-        
-        orig(self);
+    }
 
-        self.scrapAmountMultiplier = oldAmountMultiplier;
-        self.scrapValueMultiplier = oldValueMultiplier;
-        
-        
-    }
-    
-    private static IEnumerator ReplenishPatch(On.StartOfRound.orig_EndOfGame orig, StartOfRound self, int bodiesinsured, int connectedplayersonserver, int scrapcollected)
+    [HarmonyPatch(typeof(RoundManager), nameof(RoundManager.SpawnScrapInLevel))]
+    [HarmonyPostfix]
+    private static void ScrapFix(RoundManager __instance)
     {
-        IEnumerator enumerator = orig(self, bodiesinsured, connectedplayersonserver, scrapcollected);
-        
+        __instance.scrapAmountMultiplier = oldAmountMultiplier;
+        __instance.scrapValueMultiplier = oldValueMultiplier;
+    }
+
+    [HarmonyPatch(typeof(StartOfRound), nameof(StartOfRound.EndOfGame))]
+    [HarmonyPostfix]
+    private static void ReplenishPatch(StartOfRound __instance)
+    {
         MoonTracker.Instance.ReplenishMoons();
-        MoonTracker.Instance.DiminishMoon(self.currentLevel);
+        MoonTracker.Instance.DiminishMoon(__instance.currentLevel);
         MoonTracker.Instance.SaveMoons();
-        
-        return enumerator;
     }
-    
-    private static void StartPatch(On.StartOfRound.orig_Start orig, StartOfRound self)
+   
+    [HarmonyPatch(typeof(StartOfRound), nameof(StartOfRound.Start))]
+    [HarmonyPostfix]
+    private static void StartPatch(StartOfRound __instance)
     {
-        orig(self);
-        if (self.IsServer || self.IsHost)
+        if (__instance.IsServer || __instance.IsHost)
         {
             MoonTracker.Instance.LoadMoons();
         }
     }
 
-    private static void ResetMoonsPatch(On.GameNetworkManager.orig_ResetSavedGameValues orig, GameNetworkManager self)
+    [HarmonyPatch(typeof(GameNetworkManager), nameof(GameNetworkManager.ResetSavedGameValues))]
+    [HarmonyPostfix]
+    private static void ResetMoonsPatch(GameNetworkManager __instance)
     {
-        orig(self);
         MoonTracker.Instance.ResetMoons();
     }
 
-    private static void UpdateTrackerPatch(On.StartOfRound.orig_OnClientConnect orig, StartOfRound self, ulong clientid)
+    [HarmonyPatch(typeof(StartOfRound), nameof(StartOfRound.OnClientConnect))]
+    [HarmonyPostfix]
+    private static void UpdateTrackerPatch(StartOfRound __instance)
     {
-        orig(self, clientid);
         MoonTracker.Instance.UpdateClientTrackers();
     }
     

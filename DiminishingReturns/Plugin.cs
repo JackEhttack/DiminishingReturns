@@ -1,7 +1,7 @@
 ﻿using System.Reflection;
 using BepInEx;
 using BepInEx.Logging;
-using JackEhttack.netcode;
+using HarmonyLib;
 using JackEhttack.patch;
 using JackEhttack.service;
 using UnityEngine;
@@ -53,9 +53,9 @@ public class Plugin : BaseUnityPlugin
         NetcodePatcher();
         
         Log.LogInfo($"Applying patches...");
-        ScrapModifierPatch.ApplyPatches();
-        TerminalPatch.ApplyPatches();
-        NetworkObjectManager.ApplyPatches();
+        Harmony.CreateAndPatchAll(typeof(ScrapModifierPatches));
+        Harmony.CreateAndPatchAll(typeof(TerminalPatches));
+        Harmony.CreateAndPatchAll(typeof(NetworkObjectManager));
         Log.LogInfo($"Applied all patches!");
         
     }

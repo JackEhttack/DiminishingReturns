@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using HarmonyLib;
 using JackEhttack.netcode;
 using JackEhttack.service;
 using Unity.Netcode;
@@ -7,18 +8,11 @@ using UnityEngine;
 
 namespace JackEhttack.patch;
 
-public static class TerminalPatch
+static class TerminalPatches
 {
 
     private static List<(TerminalNode, int)> oldMoonPrices = [];
     private static bool debounce = true;
-    
-    public static void ApplyPatches()
-    {
-        On.Terminal.Awake += Terminal_Awake;
-        On.Terminal.TextPostProcess += Terminal_PostProcess;
-        On.StartOfRound.OnClientConnect += DiscountPatch;
-    }
 
     private static void addTrackerCommand(Terminal self)
     {
@@ -50,15 +44,15 @@ public static class TerminalPatch
         }
     }
 
-    private static void Terminal_Awake(On.Terminal.orig_Awake orig, Terminal self)
+    [HarmonyPatch(typeof(Terminal), nameof(Terminal.Awake))]
+    [HarmonyPostfix]
+    private static void Terminal_Awake(Terminal __instance)
     {
-        orig(self);
-
         if (debounce)
         {
             debounce = false; 
             
-            addTrackerCommand(self);
+            addTrackerCommand(__instance);
            
             // Get list of moon travel nodes
             var nodes = Resources.FindObjectsOfTypeAll<TerminalNode>();
@@ -78,18 +72,19 @@ public static class TerminalPatch
 
     }
 
-    private static string Terminal_PostProcess(On.Terminal.orig_TextPostProcess orig, Terminal self, string modifieddisplaytext, TerminalNode node)
+    [HarmonyPatch(typeof(Terminal), nameof(Terminal.TextPostProcess))]
+    [HarmonyPostfix]
+    private static void Terminal_PostProcess(ref string __result)
     {
-        modifieddisplaytext = orig(self, modifieddisplaytext, node);
-        modifieddisplaytext = modifieddisplaytext.Replace("[moonTracker]", MoonTracker.Instance.GetText());
-        modifieddisplaytext = modifieddisplaytext.Replace("Other commands:", 
+        __result = __result.Replace("[moonTracker]", MoonTracker.Instance.GetText());
+        __result = __result.Replace("Other commands:", 
             "Other commands:\n\n>TRACKER\nScans nearby moons for scrap density.");
-        return modifieddisplaytext;
     }
     
-    private static void DiscountPatch(On.StartOfRound.orig_OnClientConnect orig, StartOfRound self, ulong clientid)
+    [HarmonyPatch(typeof(StartOfRound), nameof(StartOfRound.OnClientConnect))]
+    [HarmonyPostfix]
+    private static void DiscountPatch(StartOfRound __instance)
     {
-        orig(self, clientid);
         NetworkHandler.Instance.DiscountUpdateClientRpc(Plugin.Config.moonDiscount.Value);
     }
     

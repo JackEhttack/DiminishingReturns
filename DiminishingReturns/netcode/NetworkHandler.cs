@@ -27,7 +27,7 @@ public class NetworkHandler : NetworkBehaviour
     [ClientRpc]
     public void DiscountUpdateClientRpc(float discount)
     {
-        TerminalPatch.UpdatePrices(discount);
+        TerminalPatches.UpdatePrices(discount);
     }
 
 }

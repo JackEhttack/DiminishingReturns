@@ -1,22 +1,17 @@
-﻿using UnityEngine;
+﻿using HarmonyLib;
+using UnityEngine;
 using Unity.Netcode;
 
 namespace JackEhttack.patch;
 
-public static class NetworkObjectManager
+static class NetworkObjectManager
 {
     static GameObject networkPrefab;
 
-    public static void ApplyPatches()
+    [HarmonyPatch(typeof(GameNetworkManager), nameof(GameNetworkManager.Start))]
+    [HarmonyPostfix]
+    private static void NetworkPatch(GameNetworkManager __instance)
     {
-        On.GameNetworkManager.Start += NetworkPatch;
-        On.StartOfRound.Awake += SpawnNetworkHandler;
-    }
-
-    private static void NetworkPatch(On.GameNetworkManager.orig_Start orig, GameNetworkManager self)
-    {
-        orig(self);
-
         if (networkPrefab != null)
         {
             return;
@@ -28,9 +23,10 @@ public static class NetworkObjectManager
         NetworkManager.Singleton.AddNetworkPrefab(networkPrefab);
     }
     
-    private static void SpawnNetworkHandler(On.StartOfRound.orig_Awake orig, StartOfRound self)
+    [HarmonyPatch(typeof(StartOfRound), nameof(StartOfRound.Awake))]
+    [HarmonyPostfix] 
+    private static void SpawnNetworkHandler(StartOfRound __instance)
     {
-        orig(self);
         if (NetworkManager.Singleton.IsHost || NetworkManager.Singleton.IsServer)
         {
             var networkHandlerHost = Object.Instantiate(networkPrefab, Vector3.zero, Quaternion.identity);
