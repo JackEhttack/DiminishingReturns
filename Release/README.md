@@ -30,6 +30,18 @@ ___
 ___
 ### Changelog:
 
+### 1.0.6 (2024-09-02)
+
+#### Note: Updating to this version will (probably) reset diminishment from older saves!
+
+#### Features
+* Increased compatibility with other mods. (namely WeatherRegistry)
+* Added config to choose how much a moon is diminished per visit. (100% of max diminishment by default)
+* Removed MMHook requirement.
+
+#### Bug Fixes
+* Fixed moon diminishment not being reset when switching save files.
+
 ### 1.0.5 (2024-08-27)
 
 #### Features
