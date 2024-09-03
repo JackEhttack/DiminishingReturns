@@ -55,7 +55,7 @@ public class MoonTracker
       foreach (string moon in moonVisits.Keys.ToList())
       {
          moonVisits[moon] = Mathf.Max(moonVisits[moon] - 1, 0);
-         if (moonVisits[moon] < 1) moonVisits.Remove(moon);
+         if (moonVisits[moon] < 0.1) moonVisits.Remove(moon);
       }
 
       Plugin.Instance.Log.LogInfo("Replenished diminishment.");
