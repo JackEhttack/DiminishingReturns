@@ -30,6 +30,11 @@ ___
 ___
 ### Changelog:
 
+### 1.0.7 (2024-09-07)
+
+#### Bug Fixes
+* Fixed moon diminishment not properly being read when loading a save.
+
 ### 1.0.6 (2024-09-02)
 
 #### Note: Updating to this version will (probably) reset diminishment from older saves!
