@@ -64,8 +64,10 @@ public class MoonTracker
       
       List<SelectableLevel> levels = StartOfRound.Instance.levels.ToList();
       SelectableLevel level = levels[random.Next(0, levels.Count)];
-         
-      if (random.NextDouble() < Plugin.Config.bonusChance.Value && level.levelID != 3 && level.levelID != -1)
+        
+      /* REMOVE level.levelID != 11 if liquidation is released */
+      if (random.NextDouble() < Plugin.Config.bonusChance.Value && 
+          level.levelID != 3 && level.levelID != -1 && level.levelID != 11)
       {
          bonusMoon = level.PlanetName;
          bonusAmount = 1 + (float) random.NextDouble() * (Plugin.Config.maxBonus.Value - 1);
