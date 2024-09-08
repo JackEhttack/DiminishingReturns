@@ -111,7 +111,7 @@ public class MoonTracker
          var currentSaveFileName = GameNetworkManager.Instance.currentSaveFileName;
          
          var moons = ES3.Load<string[]>("MoonTrackerMoons", currentSaveFileName, []).ToList();
-         var values = ES3.Load<int[]>("MoonTrackerValues", currentSaveFileName, []).ToList();
+         var values = ES3.Load<float[]>("MoonTrackerValues", currentSaveFileName, []).ToList();
          bonusMoon = ES3.Load("BonusMoon", currentSaveFileName, "");
          bonusAmount = ES3.Load("BonusAmount", currentSaveFileName, 1.0f);
 
