@@ -52,6 +52,9 @@ public class MoonTracker
 
    public void ReplenishMoons()
    {
+      /* Don't replenish if you are visiting the company moon. */
+      if (StartOfRound.Instance.currentLevel.levelID == 3) return;
+
       foreach (string moon in moonVisits.Keys.ToList())
       {
          moonVisits[moon] = Mathf.Max(moonVisits[moon] - 1, 0);
