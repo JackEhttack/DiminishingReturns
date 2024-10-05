@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.0.8 (2024-XX-XX)
+
+### Bug Fixes
+* Liquidation can no longer be selected as the bonus moon.
+* Visiting the company moon no longer replenishes diminished moons.
+
 ## 1.0.7 (2024-09-07)
 
 ### Bug Fixes
