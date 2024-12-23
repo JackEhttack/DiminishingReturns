@@ -24,10 +24,4 @@ public class NetworkHandler : NetworkBehaviour
         MoonTracker.Instance.SetText(text);
     }
 
-    [ClientRpc]
-    public void DiscountUpdateClientRpc(float discount)
-    {
-        TerminalPatches.UpdatePrices(discount);
-    }
-
 }

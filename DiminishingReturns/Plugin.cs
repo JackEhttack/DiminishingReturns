@@ -9,6 +9,7 @@ using UnityEngine;
 namespace JackEhttack;
 
 [BepInPlugin(PluginInfo.PLUGIN_GUID, PluginInfo.PLUGIN_NAME, PluginInfo.PLUGIN_VERSION)]
+[BepInDependency("com.sigurd.csync", "5.0.1")]
 public class Plugin : BaseUnityPlugin
 {
     public static Plugin Instance { get; set; }
@@ -17,7 +18,7 @@ public class Plugin : BaseUnityPlugin
 
     public static MoonTracker Service;
     public AssetBundle MainAssetBundle;
-    public static new DRConfig Config { get; private set; }
+    internal static new DRConfig Config;
 
     public Plugin()
     {

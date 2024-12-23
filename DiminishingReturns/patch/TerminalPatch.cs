@@ -65,7 +65,9 @@ static class TerminalPatches
            
         }
 
+        Plugin.Config.InitialSyncCompleted += (sender, args) => {
             UpdatePrices(Plugin.Config.moonDiscount.Value);
+        };
 
     }
 
@@ -76,13 +78,6 @@ static class TerminalPatches
         __result = __result.Replace("[moonTracker]", MoonTracker.Instance.GetText());
         __result = __result.Replace("Other commands:", 
             "Other commands:\n\n>TRACKER\nScans nearby moons for scrap density.");
-    }
-    
-    [HarmonyPatch(typeof(StartOfRound), nameof(StartOfRound.OnClientConnect))]
-    [HarmonyPostfix]
-    private static void DiscountPatch(StartOfRound __instance)
-    {
-        NetworkHandler.Instance.DiscountUpdateClientRpc(Plugin.Config.moonDiscount.Value);
     }
     
 }

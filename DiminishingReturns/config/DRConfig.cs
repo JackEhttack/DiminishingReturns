@@ -8,7 +8,6 @@ using HarmonyLib;
 
 namespace JackEhttack;
 
-[DataContract]
 public class DRConfig : SyncedConfig2<DRConfig>
 {
     [field: SyncedEntryField] public SyncedEntry<int> restock { get; private set; }
