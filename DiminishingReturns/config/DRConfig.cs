@@ -11,16 +11,15 @@ namespace JackEhttack;
 [DataContract]
 public class DRConfig : SyncedConfig2<DRConfig>
 {
-    [DataMember] public SyncedEntry<int> restock { get; private set; }
-    [DataMember] public SyncedEntry<float> denominator { get; private set; }
-    [DataMember] public SyncedEntry<float> amount { get; private set; }
-    [DataMember] public SyncedEntry<float> maxBonus { get; private set; }
-    [DataMember] public SyncedEntry<float> bonusChance { get; private set; }
-    [DataMember] public SyncedEntry<float> moonDiscount { get; private set; }
+    [field: SyncedEntryField] public SyncedEntry<int> restock { get; private set; }
+    [field: SyncedEntryField] public SyncedEntry<float> denominator { get; private set; }
+    [field: SyncedEntryField] public SyncedEntry<float> amount { get; private set; }
+    [field: SyncedEntryField] public SyncedEntry<float> maxBonus { get; private set; }
+    [field: SyncedEntryField] public SyncedEntry<float> bonusChance { get; private set; }
+    [field: SyncedEntryField] public SyncedEntry<float> moonDiscount { get; private set; }
 
     public DRConfig(ConfigFile cfg) : base("DiminishingReturns")
     {
-        ConfigManager.Register(this);
         // We want to disable saving our config file every time we bind a
         // setting as it's inefficient and slow
         cfg.SaveOnConfigSet = false; 
@@ -64,8 +63,10 @@ public class DRConfig : SyncedConfig2<DRConfig>
         ClearOrphanedEntries(cfg);
         cfg.Save();
         cfg.SaveOnConfigSet = true;
+
+        ConfigManager.Register(this);
     }
-    
+
     static void ClearOrphanedEntries(ConfigFile cfg) 
     { 
         // Find the private property `OrphanedEntries` from the type `ConfigFile`
