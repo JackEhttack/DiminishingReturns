@@ -65,10 +65,7 @@ static class TerminalPatches
            
         }
 
-        if (NetworkManager.Singleton.IsHost || NetworkManager.Singleton.IsServer)
-        {
             UpdatePrices(Plugin.Config.moonDiscount.Value);
-        }
 
     }
 

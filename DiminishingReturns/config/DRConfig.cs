@@ -1,56 +1,61 @@
 ﻿using System.Collections.Generic;
 using System.Reflection;
+using System.Runtime.Serialization;
 using BepInEx.Configuration;
+using CSync.Extensions;
+using CSync.Lib;
 using HarmonyLib;
 
 namespace JackEhttack;
 
-class DRConfig
+[DataContract]
+public class DRConfig : SyncedConfig2<DRConfig>
 {
-    public readonly ConfigEntry<int> restock;
-    public readonly ConfigEntry<float> denominator;
-    public readonly ConfigEntry<float> amount;
-    public readonly ConfigEntry<float> maxBonus;
-    public readonly ConfigEntry<float> bonusChance;
-    public readonly ConfigEntry<float> moonDiscount;
+    [DataMember] public SyncedEntry<int> restock { get; private set; }
+    [DataMember] public SyncedEntry<float> denominator { get; private set; }
+    [DataMember] public SyncedEntry<float> amount { get; private set; }
+    [DataMember] public SyncedEntry<float> maxBonus { get; private set; }
+    [DataMember] public SyncedEntry<float> bonusChance { get; private set; }
+    [DataMember] public SyncedEntry<float> moonDiscount { get; private set; }
 
-    public DRConfig(ConfigFile cfg)
+    public DRConfig(ConfigFile cfg) : base("DiminishingReturns")
     {
+        ConfigManager.Register(this);
         // We want to disable saving our config file every time we bind a
         // setting as it's inefficient and slow
         cfg.SaveOnConfigSet = false; 
         
-        restock = cfg.Bind(
+        restock = cfg.BindSyncedEntry(
             "General",
             "DaysTillRestock",
             4,
             "How many days until a moon with diminishing returns regenerate their scrap to full.");
 
-        denominator = cfg.Bind(
+        denominator = cfg.BindSyncedEntry(
             "General",
             "MaxDiminish",
             0.5f,
             "The maximum amount a moon's scrap can be diminished.");
 
-        amount = cfg.Bind(
+        amount = cfg.BindSyncedEntry(
             "General",
             "DiminishAmount",
             1f,
             "How much a moon is diminished per visit. Note: diminishment will not exceed MaxDiminish. [0 - 1.0]");
         
-        maxBonus = cfg.Bind(
+        maxBonus = cfg.BindSyncedEntry(
             "General",
             "MaxBonus",
             3.2f,
             "The upper limit for a bonus moon's scrap.");
 
-        bonusChance = cfg.Bind(
+        bonusChance = cfg.BindSyncedEntry(
             "General",
             "BonusChance",
             0.5f,
             "The chance of a bonus moon appearing per day.");
 
-        moonDiscount = cfg.Bind(
+        moonDiscount = cfg.BindSyncedEntry(
             "General",
             "MoonDiscount",
             0.5f,

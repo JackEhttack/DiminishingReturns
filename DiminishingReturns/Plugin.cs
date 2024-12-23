@@ -17,7 +17,7 @@ public class Plugin : BaseUnityPlugin
 
     public static MoonTracker Service;
     public AssetBundle MainAssetBundle;
-    internal static DRConfig Config { get; private set; } = null!;
+    public static new DRConfig Config { get; private set; }
 
     public Plugin()
     {
