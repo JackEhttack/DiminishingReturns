@@ -4,6 +4,7 @@
 	"description": "Adds Diminishing Returns to repeated visits to the same planet.",
 	"website_url": "https://github.com/JackEhttack/DiminishingReturns",
 	"dependencies": [
-		"BepInEx-BepInExPack-5.4.2100"
+		"BepInEx-BepInExPack-5.4.2100", 
+		"Sigurd-CSync-5.0.1"
 	]
 }
