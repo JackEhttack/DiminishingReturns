@@ -27,7 +27,10 @@ public class NetworkHandler : NetworkBehaviour
     [ClientRpc]
     public void DiscountUpdateClientRpc(float discount)
     {
-        TerminalPatches.UpdatePrices(discount);
+        if (!IsServer)
+        {
+            TerminalPatches.UpdatePrices(discount);
+        }
     }
 
 }

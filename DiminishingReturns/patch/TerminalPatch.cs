@@ -85,6 +85,11 @@ static class TerminalPatches
     [HarmonyPostfix]
     private static void DiscountPatch(StartOfRound __instance)
     {
+        if (!__instance.IsServer)
+        {
+            return;
+        }
+
         NetworkHandler.Instance.DiscountUpdateClientRpc(Plugin.Config.moonDiscount.Value);
     }
     
