@@ -1,6 +1,6 @@
 {
 	"name": "DiminishingReturns",
-	"version_number": "1.0.8",
+	"version_number": "1.0.9",
 	"description": "Adds Diminishing Returns to repeated visits to the same planet.",
 	"website_url": "https://github.com/JackEhttack/DiminishingReturns",
 	"dependencies": [

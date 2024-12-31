@@ -1,6 +1,11 @@
 # Changelog
 
-## 1.0.8 (2024-XX-XX)
+## 1.0.9 (2024-12-30)
+
+### Bug Fixes
+* Moon discounts are now properly synced between host and clients. (big thanks to [dopadream](https://thunderstore.io/c/lethal-company/p/dopadream/)!)
+
+## 1.0.8 (2024-10-05)
 
 ### Bug Fixes
 * Liquidation can no longer be selected as the bonus moon.
