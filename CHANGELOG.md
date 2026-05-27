@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.0.10 (2026-05-27)
+
+### Bug Fixes
+* Updated netcode-patch to latest version, newest version of lethal company broke the netcode.
+
 ## 1.0.9 (2024-12-30)
 
 ### Bug Fixes
